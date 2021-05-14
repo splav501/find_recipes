@@ -1,96 +1,11 @@
 require 'json'
-require './file'
-
-class Recipe
-  attr_accessor :id, :name, :description, :is_favorite, :ingredients
-
-  def initialize ( name, description, is_favorite, ingredients)
-    @file_name = 'recipe.json'
-
-    @name = name
-    @description = description
-    @is_favorite = is_favorite
-    @ingredients = ingredients
-  end
-
-
-    def show_recipe
-      puts @id
-    end
-
-
-
-    def append(name, ingredients, quantity)
-      if @ingredients.has_key?(name)
-        @ingredients[name] += quantity
-      elsif @ingredients[name] = quantity
-      end
-    end
-
-    def show_favorite
-
-    end
-
-    def load
-      begin
-        @ingredients = CSV.parse(MyFile::File_.read(@file_name2))
-        @ingredients = JSON.parse(MyFile::File_.read(@file_name))
-      rescue
-        @ingredients = {}
-      end
-    end
-
-end
-
-
-class Fridge
-  attr_accessor :ingredients
-  def initialize
-    @file_name = 'fridge.json'
-  end
-
-  def show_ingredients
-    puts @ingredients
-  end
-
-  def append(name, quantity)
-    if @ingredients.has_key?(name)
-      @ingredients[name] += quantity
-    elsif
-      @ingredients[name] = quantity
-    end
-  end
-
-  def to_json
-    @ingredients.to_json
-  end
-
-  def to_csv
-
-  end
-
-  def from_csv
-
-  end
-
-  def save
-    text = to_json
-    MyFile::File_.write(@file_name, text)
-  end
-
-  def load
-    begin
-      @ingredients = JSON.parse(MyFile::File_.read(@file_name))
-    rescue
-      @ingredients = {}
-    end
-  end
-end
-
+require './fridge'
+require './ingridient'
+require './db'
+require './recipe'
 
 FRIDGE = Fridge.new
-FRIDGE.load
-
+FRIDGE.create({})
 
 def add_ingredient
   puts 'Enter a name of ingredient'
@@ -98,7 +13,7 @@ def add_ingredient
   puts 'Enter a quantity of ingredient'
   quantity_input = gets.chomp.to_f
 
-  FRIDGE.append(name_input, quantity_input)
+  FRIDGE.appendIngredient(name_input, quantity_input)
 end
 
 
@@ -128,7 +43,6 @@ def main
     puts '1. Add ingredient into a fridge'
     puts '2. Show ingredients into FRIDGE'
     puts '3. Create recipe'
-    puts ''
     puts '0. Exit'
 
     puts 'Enter a number '
