@@ -81,14 +81,15 @@ class Db
             self.parse_and_write(updated_data, true)
         end
     end
+
+    # Ids generators
+
+    def generate_id
+        data = self.parse_file
+        last = data.last()
+        if last == nil
+            return 1;
+        end
+        last.id + 1
+    end
 end
-
-def start
-    db = Db.new('fridge.json')
-
-    db.create({ a: 1, b: 2 })
-
-    puts "#{ JSON.generate(db.find_one({ a: 1 })) }"
-end
-
-start
